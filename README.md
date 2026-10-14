@@ -33,8 +33,8 @@ Para verla: abre `index.html` en el navegador.
 | Hyundai Porter refrigerado | Dclg5RROKPs | `porter-refrigerado.webp` |
 | Hyundai Starex 2014 · Automática | DbwCvWVBkCC | `starex-2014-automatica.webp` |
 | Hyundai Starex 2017 · Automática · 15 pasajeros | DbEqXJdOSvE | `starex-2017-automatica-15-pasajeros.webp` |
-| Van Panel de Carga 2018 · Mecánica | DdFaHnhuvj9 | Pendiente (el vendedor sale delante en todo el video) |
-| Van Semi Panel | DeeuREEOGx4 | Pendiente (el vendedor sale delante en todo el video) |
+| Van Panel de Carga 2018 · Mecánica | DdFaHnhuvj9 | `van-panel-carga-2018-mecanica.webp` (foto enviada por el cliente) |
+| Van Semi Panel | DeeuREEOGx4 | `van-semi-panel.webp` (foto enviada por el cliente) |
 
 Las fotos son fotogramas recortados de los reels (solo recorte, escala y ajuste ligero de
 contraste y nitidez). El video original deja ~536×402 px útiles, así que están ampliadas a 1200×900.
@@ -44,4 +44,3 @@ contraste y nitidez). El video original deja ~536×402 px útiles, así que est�
 - Precios, horario de atención y requisitos de crédito.
 - Qué unidades siguen disponibles (algunos reels son de junio y julio).
 - Año y transmisión de la Van Semi Panel y del camión cajón seco.
-- Fotos limpias de la Van Panel de Carga 2018 y de la Van Semi Panel.
