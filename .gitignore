@@ -1,0 +1,5 @@
+# Archivos del kit (no forman parte de la web)
+CLAUDE.md
+INSTRUCCIONES.md
+.claude/
+.DS_Store
