@@ -39,6 +39,18 @@ Para verla: abre `index.html` en el navegador.
 Las fotos son fotogramas recortados de los reels (solo recorte, escala y ajuste ligero de
 contraste y nitidez). El video original deja ~536×402 px útiles, así que están ampliadas a 1200×900.
 
+## Filtros del catálogo
+
+El catálogo se arma desde la lista `UNITS` dentro del script de `index.html` (una entrada por unidad:
+nombre, marca, año, transmisión, carrocería, cabina, precio y foto). Filtros: búsqueda, presupuesto,
+marca, transmisión, año, carrocería, cabina, tipo (camión/van) y orden. La búsqueda queda en la URL,
+así que se puede compartir un enlace ya filtrado.
+
+**Precios:** todos están en `precio: null`. Al poner el precio en lempiras (por ejemplo
+`precio: 450000`), el filtro de presupuesto empieza a esconder lo que no alcanza, aparece el precio
+en la tarjeta y se habilita ordenar por precio. Mientras no haya precios, el presupuesto se envía por
+WhatsApp junto con la búsqueda.
+
 ## Pendiente de confirmar con el dueño
 
 - Precios, horario de atención y requisitos de crédito.

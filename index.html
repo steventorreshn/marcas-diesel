@@ -103,7 +103,7 @@ button{font:inherit}
 .btn svg{width:1.25em;height:1.25em;flex:none}
 .btn-primary{background:var(--or);color:var(--or-ink);box-shadow:0 14px 34px -14px rgba(251,65,0,.85)}
 .btn-primary:hover{background:var(--or-l);transform:translateY(-3px);box-shadow:0 22px 40px -14px rgba(251,65,0,1)}
-.btn-ghost{border-color:rgba(255,255,255,.28);color:var(--ink)}
+.btn-ghost{background:transparent;border-color:rgba(255,255,255,.28);color:var(--ink)}
 .btn-ghost:hover{border-color:var(--or-l);color:#fff;transform:translateY(-3px)}
 .btn-sm{padding:.66rem 1.1rem;font-size:.95rem}
 
@@ -228,19 +228,109 @@ button{font:inherit}
 .hero-badge i{width:9px;height:9px;border-radius:50%;background:var(--or);flex:none}
 
 /* =========================================================
-   CATÁLOGO
+   CATÁLOGO + FILTROS
    ========================================================= */
 .catalog{background:linear-gradient(180deg,var(--bg),#081628 30%,var(--bg))}
-.c-top{display:flex;justify-content:space-between;align-items:flex-end;gap:24px 30px;flex-wrap:wrap;margin-bottom:34px}
-.filters{display:flex;gap:10px;flex-wrap:wrap}
+.c-head{margin-bottom:30px}
+[hidden]{display:none!important}
+.filters{display:flex;gap:8px;flex-wrap:wrap}
 .filters button{
-  padding:11px 20px;border-radius:999px;border:1px solid var(--line);background:rgba(6,17,31,.5);color:var(--muted);cursor:pointer;
-  font-family:var(--f-d);font-weight:600;font-size:.98rem;transition:all .3s var(--ease);
+  padding:10px 18px;border-radius:999px;border:1px solid var(--line);background:rgba(6,17,31,.5);color:var(--muted);cursor:pointer;
+  font-family:var(--f-d);font-weight:600;font-size:.96rem;transition:all .3s var(--ease);
 }
 .filters button:hover{color:#fff;border-color:rgba(255,255,255,.4)}
 .filters button.on{background:var(--or);color:var(--or-ink);border-color:var(--or)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
-.u-wrap.is-hidden{display:none}
+.c-layout{display:grid;grid-template-columns:290px minmax(0,1fr);gap:28px;align-items:start}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+.fpanel{
+  position:sticky;top:86px;max-height:calc(100vh - 104px);overflow:auto;overscroll-behavior:contain;
+  padding:20px 20px 8px;border-radius:22px;border:1px solid var(--line);
+  background:linear-gradient(165deg,rgba(19,64,99,.5),rgba(6,17,31,.7));scrollbar-width:thin;
+}
+.fpanel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:4px}
+.fpanel-head h3{font-family:var(--f-d);font-weight:700;font-size:1.25rem;margin:0}
+.link-btn{background:none;border:0;padding:6px 0;color:var(--or-l);font-weight:600;font-size:.92rem;cursor:pointer}
+.link-btn:disabled{color:var(--muted);opacity:.5;cursor:default}
+.fclose{display:none;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:none;color:#fff;cursor:pointer;place-items:center}
+.fclose svg{width:18px;height:18px}
+.fgroup{margin:0;padding:16px 0;border:0;border-top:1px solid var(--line);min-width:0}
+.fpanel-head + .fgroup{border-top:0}
+.flabel{display:block;padding:0;margin:0 0 10px;font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#b9cadb}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{position:relative;display:inline-flex}
+.opt input{position:absolute;opacity:0;width:1px;height:1px}
+.opt span{
+  display:inline-flex;align-items:center;gap:6px;padding:8px 13px;border-radius:999px;cursor:pointer;
+  border:1px solid var(--line);background:rgba(6,17,31,.55);color:#d6e2ec;font-size:.9rem;font-weight:600;
+  transition:background .25s,border-color .25s,color .25s,opacity .25s;
+}
+.opt span small{color:var(--muted);font-weight:500;font-size:.8rem}
+.opt:hover span{border-color:rgba(255,255,255,.4)}
+.opt input:checked + span{background:var(--or);border-color:var(--or);color:var(--or-ink)}
+.opt input:checked + span small{color:rgba(16,20,26,.7)}
+.opt input:focus-visible + span{outline:2px solid var(--or-l);outline-offset:2px}
+.opt input:disabled + span{opacity:.38;cursor:not-allowed}
+.range2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field small{color:var(--muted);font-size:.78rem}
+.inp,.sel{
+  width:100%;font:inherit;font-size:.96rem;color:var(--ink);background:rgba(6,17,31,.65);
+  border:1px solid rgba(159,179,198,.25);border-radius:12px;padding:11px 12px;outline:none;
+  transition:border-color .25s,box-shadow .25s;
+}
+.inp::placeholder{color:#6f879e}
+.inp:focus,.sel:focus{border-color:var(--or);box-shadow:0 0 0 3px rgba(251,65,0,.22)}
+.sel{
+  appearance:none;-webkit-appearance:none;padding-right:36px;cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ff6a33' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 11px center;background-size:18px;
+}
+.sel option{background:#0a1a2e;color:var(--ink)}
+.ico-inp{position:relative}
+.ico-inp > svg,.ico-inp > b{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted)}
+.ico-inp > svg{width:18px;height:18px}
+.ico-inp > b{font-weight:700;font-size:.95rem}
+.ico-inp .inp{padding-left:36px}
+.ico-inp .inp::-webkit-search-cancel-button{filter:invert(1)}
+.hint{margin:8px 0 0;font-size:.82rem;color:var(--muted);line-height:1.45}
+.fpanel-foot{display:none}
+.scrim{display:none}
+
+.rbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 14px;margin-bottom:14px}
+.rbar-right{display:flex;align-items:center;gap:10px}
+.sort{width:auto;min-width:190px}
+.open-filters{display:none;position:relative}
+.open-filters svg{width:18px;height:18px}
+.fbadge{
+  min-width:22px;height:22px;padding:0 6px;border-radius:999px;display:inline-grid;place-items:center;
+  background:var(--or);color:var(--or-ink);font-size:.78rem;font-weight:800;
+}
+.rmeta{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin-bottom:18px;min-height:34px}
+.rcount{margin:0;color:var(--muted);font-size:.95rem}
+.rcount b{color:#fff;font-family:var(--f-d)}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pill{
+  display:inline-flex;align-items:center;gap:6px;padding:6px 9px 6px 12px;border-radius:999px;cursor:pointer;
+  background:rgba(251,65,0,.13);border:1px solid rgba(251,65,0,.42);color:#ffd2bf;font:inherit;font-size:.85rem;font-weight:600;
+  transition:background .25s;
+}
+.pill:hover{background:rgba(251,65,0,.25)}
+.pill svg{width:14px;height:14px}
+.pill.ghost{background:none;border-color:var(--line);color:#c8d7e4}
+.pill.ghost:hover{border-color:rgba(255,255,255,.4)}
+
+.notice{
+  display:flex;gap:12px;align-items:flex-start;margin:0 0 18px;padding:14px 16px;border-radius:16px;
+  background:rgba(37,211,102,.08);border:1px solid rgba(37,211,102,.32);color:#cfeedd;font-size:.94rem;line-height:1.5;
+}
+.notice svg{width:22px;height:22px;flex:none;color:var(--wa);margin-top:1px}
+.notice a{color:#7ff0a8;font-weight:700;text-decoration:underline;text-underline-offset:3px}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px}
+.u-wrap[hidden]{display:none}
+.u-wrap.pop{animation:pop .5s var(--ease) backwards;animation-delay:calc(var(--k,0) * 45ms)}
+@keyframes pop{from{opacity:0;transform:translateY(22px) scale(.97)}}
 .card{
   position:relative;height:100%;display:flex;flex-direction:column;overflow:hidden;
   border-radius:22px;border:1px solid var(--line);
@@ -255,17 +345,71 @@ button{font:inherit}
   position:absolute;left:12px;top:12px;padding:6px 11px;border-radius:999px;
   background:var(--or);color:var(--or-ink);font-family:var(--f-d);font-weight:700;font-size:.8rem;letter-spacing:.04em;
 }
-.card-img.pending{display:grid;place-items:center;text-align:center;padding:20px;
-  background:repeating-linear-gradient(-45deg,#0b2036 0 16px,#0e2742 16px 32px)}
-.card-img.pending .ph{font-size:.95rem;padding:.5em .9em}
-.card-body{display:flex;flex-direction:column;gap:12px;padding:20px 20px 22px;flex:1}
-.card h3{font-family:var(--f-d);font-weight:700;font-size:1.35rem;line-height:1.15;letter-spacing:-.02em;margin:0}
-.card h3 span{display:block;font-weight:500;font-size:.95rem;color:var(--muted);letter-spacing:0;margin-top:4px}
-.chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{padding:5px 11px;border-radius:999px;border:1px solid var(--line);font-size:.82rem;font-weight:600;color:#d6e2ec}
+.card-img .year{
+  position:absolute;right:12px;top:12px;padding:6px 11px;border-radius:999px;
+  background:rgba(6,17,31,.82);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  border:1px solid rgba(255,255,255,.18);font-family:var(--f-d);font-weight:700;font-size:.85rem;
+}
+.card-body{display:flex;flex-direction:column;gap:12px;padding:18px 18px 20px;flex:1}
+.card h3{font-family:var(--f-d);font-weight:700;font-size:1.3rem;line-height:1.15;letter-spacing:-.02em;margin:0}
+.card h3 span{display:block;font-weight:500;font-size:.93rem;color:var(--muted);letter-spacing:0;margin-top:4px}
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{padding:5px 10px;border-radius:999px;border:1px solid var(--line);font-size:.8rem;font-weight:600;color:#d6e2ec}
 .chip.cat{color:var(--muted)}
 .price{margin-top:auto;padding-top:12px;border-top:1px solid var(--line);font-family:var(--f-d);font-weight:600;color:#ffb594;font-size:1rem}
+.price b{font-size:1.25rem;color:#fff}
 .card .btn{width:100%}
+
+.empty{
+  padding:clamp(28px,5vw,48px);border-radius:22px;border:1px dashed rgba(159,179,198,.35);text-align:center;
+  background:rgba(6,17,31,.4);
+}
+.empty h3{font-family:var(--f-d);font-size:1.4rem;margin:0 0 8px}
+.empty p{color:var(--muted);margin:0 auto 20px;max-width:46ch}
+.empty .btns{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.help{
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 24px;margin-top:26px;
+  padding:22px 24px;border-radius:22px;border:1px solid rgba(37,211,102,.32);
+  background:radial-gradient(420px circle at 0% 50%,rgba(37,211,102,.14),transparent 60%),linear-gradient(135deg,#10426b,#0d2b4a);
+}
+.help b{display:block;font-family:var(--f-d);font-size:1.2rem;line-height:1.2}
+.help p{margin:4px 0 0;color:#c3d3e1;font-size:.95rem}
+.btn-wa{background:var(--wa);color:#05260f;box-shadow:0 14px 34px -14px rgba(37,211,102,.8)}
+.btn-wa:hover{transform:translateY(-3px)}
+
+@media (max-width:1080px){
+  .c-layout{grid-template-columns:260px minmax(0,1fr);gap:22px}
+}
+@media (max-width:900px){
+  .c-layout{grid-template-columns:1fr}
+  .open-filters{display:inline-flex}
+  .fpanel{
+    position:fixed;left:0;right:0;bottom:0;top:auto;z-index:90;max-height:88vh;max-height:88dvh;
+    border-radius:24px 24px 0 0;padding:18px 18px 0;background:#0a1d33;border-bottom:0;
+    transform:translateY(105%);visibility:hidden;transition:transform .45s var(--ease),visibility 0s .45s;
+    box-shadow:0 -30px 60px rgba(0,0,0,.6);
+  }
+  .fpanel.open{transform:none;visibility:visible;transition:transform .45s var(--ease),visibility 0s}
+  .fpanel::before{content:"";display:block;width:44px;height:5px;border-radius:5px;background:rgba(255,255,255,.25);margin:0 auto 12px}
+  .fclose{display:grid}
+  .fpanel-head{position:sticky;top:-18px;z-index:2;background:#0a1d33;padding:6px 0 10px}
+  .fpanel-foot{
+    display:block;position:sticky;bottom:0;z-index:2;margin:0 -18px;padding:14px 18px calc(14px + env(safe-area-inset-bottom));
+    background:linear-gradient(180deg,rgba(10,29,51,0),#0a1d33 28%);
+  }
+  .fpanel-foot .btn{width:100%}
+  .scrim{display:block;position:fixed;inset:0;z-index:85;background:rgba(2,8,16,.6);opacity:0;pointer-events:none;transition:opacity .35s}
+  .scrim.on{opacity:1;pointer-events:auto}
+}
+@media (max-width:600px){
+  .rbar .filters{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%}
+  .rbar .filters button{padding:10px 4px;font-size:.9rem}
+  .sort{min-width:0}
+  .rbar-right{width:100%}
+  .rbar-right .btn,.rbar-right .sel{flex:1;min-width:0}
+  .help{padding:20px}
+  .help .btn{width:100%}
+}
 
 /* =========================================================
    UBICACIÓN
@@ -369,6 +513,10 @@ button{font:inherit}
     <symbol id="i-pin" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.6"/></g></symbol>
     <symbol id="i-phone" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2z"/></symbol>
     <symbol id="i-check" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.5l5 5 10-11"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></g></symbol>
+    <symbol id="i-sliders" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></g></symbol>
+    <symbol id="i-share" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><path d="M8.3 10.8l7.4-4.4M8.3 13.2l7.4 4.4"/></g></symbol>
   </defs>
 </svg>
 
@@ -422,141 +570,93 @@ button{font:inherit}
 <!-- ================= CATÁLOGO ================= -->
 <section class="section catalog" id="unidades">
   <div class="container">
-    <div class="c-top">
-      <div>
-        <span class="eyebrow" data-reveal>Catálogo</span>
-        <h2 class="h2" data-reveal>Unidades para <em>trabajar</em></h2>
-        <p class="lead" data-reveal>Escríbenos por WhatsApp para confirmar disponibilidad y cotizar la unidad que te interesa.</p>
-      </div>
-      <div class="filters" role="group" aria-label="Filtrar unidades" data-reveal>
-        <button class="on" data-filter="all" aria-pressed="true">Todos · <span data-count="all"></span></button>
-        <button data-filter="camion" aria-pressed="false">Camiones · <span data-count="camion"></span></button>
-        <button data-filter="van" aria-pressed="false">Vans · <span data-count="van"></span></button>
-      </div>
+    <div class="c-head">
+      <span class="eyebrow" data-reveal>Catálogo</span>
+      <h2 class="h2" data-reveal>Encuentra tu unidad <em>para trabajar</em></h2>
+      <p class="lead" data-reveal>Filtra por tipo, marca, transmisión, año y presupuesto. Cuando encuentres la tuya, cotízala por WhatsApp.</p>
     </div>
 
-    <div class="grid" id="grid">
-      <!-- Camiones -->
-      <div class="u-wrap" data-cat="camion" data-reveal><article class="card">
-        <div class="card-img"><img src="assets/units/porter-2018-automatico.webp" alt="Hyundai Porter 2018 automático, camión blanco con plataforma" width="1200" height="900" loading="lazy" decoding="async"><span class="credit">Crédito directo</span></div>
-        <div class="card-body">
-          <h3>Hyundai Porter 2018<span>Plataforma</span></h3>
-          <div class="chips"><span class="chip">Automático</span><span class="chip cat">Camión</span></div>
-          <p class="price">Cotiza por WhatsApp</p>
-          <a class="btn btn-primary" data-unit="Hyundai Porter 2018 automático" href="https://wa.me/50432003096" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Cotizar esta unidad</a>
+    <div class="c-layout">
+      <div class="scrim" id="scrim"></div>
+      <aside class="fpanel" id="fpanel" aria-label="Filtros del catálogo">
+        <div class="fpanel-head">
+          <h3>Filtros</h3>
+          <button class="link-btn" id="fClear" type="button">Limpiar todo</button>
+          <button class="fclose" id="fClose" type="button" aria-label="Cerrar filtros"><svg><use href="#i-x"/></svg></button>
         </div>
-      </article></div>
 
-      <div class="u-wrap" data-cat="camion" data-reveal><article class="card">
-        <div class="card-img"><img src="assets/units/bongo-2018-doble-cabina-automatico.webp" alt="Kia Bongo 2018 doble cabina automático, camión blanco con plataforma" width="1200" height="900" loading="lazy" decoding="async"><span class="credit">Crédito directo</span></div>
-        <div class="card-body">
-          <h3>Kia Bongo 2018<span>Doble cabina · Plataforma</span></h3>
-          <div class="chips"><span class="chip">Automático</span><span class="chip cat">Camión</span></div>
-          <p class="price">Cotiza por WhatsApp</p>
-          <a class="btn btn-primary" data-unit="Kia Bongo 2018 doble cabina automático" href="https://wa.me/50432003096" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Cotizar esta unidad</a>
+        <div class="fgroup">
+          <label class="flabel" for="fQ">Buscar</label>
+          <div class="ico-inp"><svg aria-hidden="true"><use href="#i-search"/></svg><input class="inp" id="fQ" type="search" placeholder="Porter, Bongo, Starex…" autocomplete="off" enterkeyhint="search"></div>
         </div>
-      </article></div>
 
-      <div class="u-wrap" data-cat="camion" data-reveal><article class="card">
-        <div class="card-img"><img src="assets/units/bongo-2018-cabina-y-media-automatico.webp" alt="Kia Bongo 2018 cabina y media automático, camión blanco con plataforma" width="1200" height="900" loading="lazy" decoding="async"><span class="credit">Crédito directo</span></div>
-        <div class="card-body">
-          <h3>Kia Bongo 2018<span>Cabina y media · Plataforma</span></h3>
-          <div class="chips"><span class="chip">Automático</span><span class="chip cat">Camión</span></div>
-          <p class="price">Cotiza por WhatsApp</p>
-          <a class="btn btn-primary" data-unit="Kia Bongo 2018 cabina y media automático" href="https://wa.me/50432003096" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Cotizar esta unidad</a>
+        <div class="fgroup">
+          <label class="flabel" for="fBudget">Tu presupuesto</label>
+          <div class="ico-inp"><b aria-hidden="true">L</b><input class="inp" id="fBudget" type="text" inputmode="numeric" placeholder="Ej. 400,000" autocomplete="off"></div>
+          <p class="hint">Escribe cuánto tienes y te decimos qué unidades te alcanzan.</p>
         </div>
-      </article></div>
 
-      <div class="u-wrap" data-cat="camion" data-reveal><article class="card">
-        <div class="card-img"><img src="assets/units/bongo-2018-mecanico.webp" alt="Kia Bongo 2018 mecánico, camión azul con plataforma" width="1200" height="900" loading="lazy" decoding="async"><span class="credit">Crédito directo</span></div>
-        <div class="card-body">
-          <h3>Kia Bongo 2018<span>Plataforma · Azul</span></h3>
-          <div class="chips"><span class="chip">Mecánico</span><span class="chip cat">Camión</span></div>
-          <p class="price">Cotiza por WhatsApp</p>
-          <a class="btn btn-primary" data-unit="Kia Bongo 2018 mecánico" href="https://wa.me/50432003096" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Cotizar esta unidad</a>
-        </div>
-      </article></div>
+        <fieldset class="fgroup"><legend class="flabel">Marca</legend><div class="opts" data-facet="marca"></div></fieldset>
+        <fieldset class="fgroup"><legend class="flabel">Transmisión</legend><div class="opts" data-facet="trans"></div></fieldset>
+        <fieldset class="fgroup">
+          <legend class="flabel">Año</legend>
+          <div class="range2">
+            <label class="field"><small>Desde</small><select class="sel" id="fFrom"></select></label>
+            <label class="field"><small>Hasta</small><select class="sel" id="fTo"></select></label>
+          </div>
+        </fieldset>
+        <fieldset class="fgroup"><legend class="flabel">Carrocería</legend><div class="opts" data-facet="carr"></div></fieldset>
+        <fieldset class="fgroup"><legend class="flabel">Cabina</legend><div class="opts" data-facet="cab"></div></fieldset>
 
-      <div class="u-wrap" data-cat="camion" data-reveal><article class="card">
-        <div class="card-img"><img src="assets/units/bongo-2019-cajon-seco-automatico.webp" alt="Kia Bongo 2019 automático con cajón seco, camión blanco" width="1200" height="900" loading="lazy" decoding="async"><span class="credit">Crédito directo</span></div>
-        <div class="card-body">
-          <h3>Kia Bongo 2019<span>Cajón seco</span></h3>
-          <div class="chips"><span class="chip">Automático</span><span class="chip cat">Camión</span></div>
-          <p class="price">Cotiza por WhatsApp</p>
-          <a class="btn btn-primary" data-unit="Kia Bongo 2019 cajón seco automático" href="https://wa.me/50432003096" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Cotizar esta unidad</a>
-        </div>
-      </article></div>
+        <div class="fpanel-foot"><button class="btn btn-primary" id="fApply" type="button"><span>Ver <b id="fApplyN">0</b> unidades</span></button></div>
+      </aside>
 
-      <div class="u-wrap" data-cat="camion" data-reveal><article class="card">
-        <div class="card-img"><img src="assets/units/bongo-2015-cajon-mecanico.webp" alt="Kia Bongo 2015 mecánico con cajón, camión azul" width="1200" height="900" loading="lazy" decoding="async"><span class="credit">Crédito directo</span></div>
-        <div class="card-body">
-          <h3>Kia Bongo 2015<span>Cajón · Azul</span></h3>
-          <div class="chips"><span class="chip">Mecánico</span><span class="chip cat">Camión</span></div>
-          <p class="price">Cotiza por WhatsApp</p>
-          <a class="btn btn-primary" data-unit="Kia Bongo 2015 mecánico" href="https://wa.me/50432003096" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Cotizar esta unidad</a>
+      <div class="results" id="results">
+        <div class="rbar">
+          <div class="filters" role="group" aria-label="Tipo de unidad">
+            <button type="button" data-tipo="all" aria-pressed="true" class="on">Todos · <span data-tcount="all"></span></button>
+            <button type="button" data-tipo="camion" aria-pressed="false">Camiones · <span data-tcount="camion"></span></button>
+            <button type="button" data-tipo="van" aria-pressed="false">Vans · <span data-tcount="van"></span></button>
+          </div>
+          <div class="rbar-right">
+            <button class="btn btn-ghost btn-sm open-filters" id="fOpen" type="button" aria-controls="fpanel" aria-expanded="false"><svg><use href="#i-sliders"/></svg>Filtros <span class="fbadge" id="fBadge" hidden></span></button>
+            <label class="sr-only" for="fSort">Ordenar unidades</label>
+            <select class="sel sort" id="fSort">
+              <option value="rec">Recomendados</option>
+              <option value="anio-desc">Año: más nuevo</option>
+              <option value="anio-asc">Año: más antiguo</option>
+              <option value="precio-asc" data-needs-price>Precio: menor a mayor</option>
+              <option value="precio-desc" data-needs-price>Precio: mayor a menor</option>
+            </select>
+          </div>
         </div>
-      </article></div>
 
-      <div class="u-wrap" data-cat="camion" data-reveal><article class="card">
-        <div class="card-img"><img src="assets/units/porter-cajon-seco-automatico.webp" alt="Hyundai Porter automático con cajón seco, camión blanco" width="1200" height="900" loading="lazy" decoding="async"><span class="credit">Crédito directo</span></div>
-        <div class="card-body">
-          <h3>Hyundai Porter<span>Camión cajón seco</span></h3>
-          <div class="chips"><span class="chip">Automático</span><span class="chip cat">Camión</span></div>
-          <p class="price">Cotiza por WhatsApp</p>
-          <a class="btn btn-primary" data-unit="Hyundai Porter cajón seco automático" href="https://wa.me/50432003096" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Cotizar esta unidad</a>
+        <div class="rmeta">
+          <p class="rcount" id="rCount" aria-live="polite"></p>
+          <div class="pills" id="pills"></div>
         </div>
-      </article></div>
 
-      <div class="u-wrap" data-cat="camion" data-reveal><article class="card">
-        <div class="card-img"><img src="assets/units/porter-refrigerado.webp" alt="Hyundai Porter blanco con cajón refrigerado" width="1200" height="900" loading="lazy" decoding="async"><span class="credit">Crédito directo</span></div>
-        <div class="card-body">
-          <h3>Hyundai Porter<span>Camión refrigerado</span></h3>
-          <div class="chips"><span class="chip cat">Camión</span></div>
-          <p class="price">Cotiza por WhatsApp</p>
-          <a class="btn btn-primary" data-unit="Hyundai Porter refrigerado" href="https://wa.me/50432003096" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Cotizar esta unidad</a>
-        </div>
-      </article></div>
+        <p class="notice" id="budgetNote" hidden><svg aria-hidden="true"><use href="#i-wa"/></svg><span></span></p>
 
-      <!-- Vans -->
-      <div class="u-wrap" data-cat="van" data-reveal><article class="card">
-        <div class="card-img"><img src="assets/units/starex-2014-automatica.webp" alt="Hyundai Starex 2014 automática, van plateada de pasajeros" width="1200" height="900" loading="lazy" decoding="async"><span class="credit">Crédito directo</span></div>
-        <div class="card-body">
-          <h3>Hyundai Starex 2014<span>Pasajeros · Plateada</span></h3>
-          <div class="chips"><span class="chip">Automática</span><span class="chip cat">Van</span></div>
-          <p class="price">Cotiza por WhatsApp</p>
-          <a class="btn btn-primary" data-unit="Hyundai Starex 2014 automática" href="https://wa.me/50432003096" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Cotizar esta unidad</a>
-        </div>
-      </article></div>
+        <div class="grid" id="grid"></div>
 
-      <div class="u-wrap" data-cat="van" data-reveal><article class="card">
-        <div class="card-img"><img src="assets/units/starex-2017-automatica-15-pasajeros.webp" alt="Hyundai Starex 2017 automática de 15 pasajeros, van blanca" width="1200" height="900" loading="lazy" decoding="async"><span class="credit">Crédito directo</span></div>
-        <div class="card-body">
-          <h3>Hyundai Starex 2017<span>15 pasajeros · Blanca</span></h3>
-          <div class="chips"><span class="chip">Automática</span><span class="chip cat">Van</span></div>
-          <p class="price">Cotiza por WhatsApp</p>
-          <a class="btn btn-primary" data-unit="Hyundai Starex 2017 automática de 15 pasajeros" href="https://wa.me/50432003096" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Cotizar esta unidad</a>
+        <div class="empty" id="empty" hidden>
+          <h3>Ninguna unidad coincide con todos tus filtros</h3>
+          <p>Quita algún filtro o escríbenos lo que buscas: te decimos qué tenemos que se acerque.</p>
+          <div class="btns">
+            <button class="btn btn-ghost" type="button" data-clear>Limpiar filtros</button>
+            <a class="btn btn-wa" data-wa-search href="https://wa.me/50432003096" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Pedir por WhatsApp</a>
+          </div>
         </div>
-      </article></div>
 
-      <div class="u-wrap" data-cat="van" data-reveal><article class="card">
-        <div class="card-img"><img src="assets/units/van-panel-carga-2018-mecanica.webp" alt="Hyundai Starex negra, van panel de carga 2018 mecánica" width="1200" height="900" loading="lazy" decoding="async"><span class="credit">Crédito directo</span></div>
-        <div class="card-body">
-          <h3>Van Panel de Carga 2018<span>Negra</span></h3>
-          <div class="chips"><span class="chip">Mecánica</span><span class="chip cat">Van</span></div>
-          <p class="price">Cotiza por WhatsApp</p>
-          <a class="btn btn-primary" data-unit="Van Panel de Carga 2018 mecánica" href="https://wa.me/50432003096" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Cotizar esta unidad</a>
+        <div class="help">
+          <div>
+            <b>¿No encuentras lo que buscas?</b>
+            <p>Mándanos tu búsqueda por WhatsApp y te ayudamos a encontrar la unidad.</p>
+          </div>
+          <a class="btn btn-wa" data-wa-search href="https://wa.me/50432003096" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Enviar mi búsqueda</a>
         </div>
-      </article></div>
-
-      <div class="u-wrap" data-cat="van" data-reveal><article class="card">
-        <div class="card-img"><img src="assets/units/van-semi-panel.webp" alt="Hyundai Starex gris, van semi panel" width="1200" height="900" loading="lazy" decoding="async"><span class="credit">Crédito directo</span></div>
-        <div class="card-body">
-          <h3>Van Semi Panel<span>Gris</span></h3>
-          <div class="chips"><span class="chip cat">Van</span></div>
-          <p class="price">Cotiza por WhatsApp</p>
-          <a class="btn btn-primary" data-unit="Van Semi Panel" href="https://wa.me/50432003096" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Cotizar esta unidad</a>
-        </div>
-      </article></div>
+      </div>
     </div>
   </div>
 </section>
@@ -657,21 +757,280 @@ button{font:inherit}
   }), { threshold: .12, rootMargin: '0px 0px -5% 0px' });
   $$('[data-reveal]').forEach(el => revIO.observe(el));
 
-  /* ---------- Filtros ---------- */
-  const wraps = $$('.u-wrap');
-  $$('[data-count]').forEach(s => {
-    const f = s.dataset.count;
-    s.textContent = wraps.filter(w => f === 'all' || w.dataset.cat === f).length;
+  /* ---------- Catálogo ---------- */
+  // precio en lempiras; null = aún no confirmado por el dueño
+  const UNITS = [
+    { nombre:'Hyundai Porter 2018', sub:'Blanco', tipo:'camion', marca:'Hyundai', anio:2018, trans:'Automático', carr:'Plataforma', cab:null, precio:null,
+      foto:'porter-2018-automatico.webp', alt:'Hyundai Porter 2018 automático, camión blanco con plataforma', wa:'Hyundai Porter 2018 automático' },
+    { nombre:'Kia Bongo 2018', sub:'Blanco', tipo:'camion', marca:'Kia', anio:2018, trans:'Automático', carr:'Plataforma', cab:'Doble cabina', precio:null,
+      foto:'bongo-2018-doble-cabina-automatico.webp', alt:'Kia Bongo 2018 doble cabina automático, camión blanco con plataforma', wa:'Kia Bongo 2018 doble cabina automático' },
+    { nombre:'Kia Bongo 2018', sub:'Blanco', tipo:'camion', marca:'Kia', anio:2018, trans:'Automático', carr:'Plataforma', cab:'Cabina y media', precio:null,
+      foto:'bongo-2018-cabina-y-media-automatico.webp', alt:'Kia Bongo 2018 cabina y media automático, camión blanco con plataforma', wa:'Kia Bongo 2018 cabina y media automático' },
+    { nombre:'Kia Bongo 2018', sub:'Azul', tipo:'camion', marca:'Kia', anio:2018, trans:'Mecánico', carr:'Plataforma', cab:null, precio:null,
+      foto:'bongo-2018-mecanico.webp', alt:'Kia Bongo 2018 mecánico, camión azul con plataforma', wa:'Kia Bongo 2018 mecánico' },
+    { nombre:'Kia Bongo 2019', sub:'Blanco', tipo:'camion', marca:'Kia', anio:2019, trans:'Automático', carr:'Cajón', cab:null, precio:null,
+      foto:'bongo-2019-cajon-seco-automatico.webp', alt:'Kia Bongo 2019 automático con cajón seco, camión blanco', wa:'Kia Bongo 2019 cajón seco automático' },
+    { nombre:'Kia Bongo 2015', sub:'Azul', tipo:'camion', marca:'Kia', anio:2015, trans:'Mecánico', carr:'Cajón', cab:null, precio:null,
+      foto:'bongo-2015-cajon-mecanico.webp', alt:'Kia Bongo 2015 mecánico con cajón, camión azul', wa:'Kia Bongo 2015 mecánico' },
+    { nombre:'Hyundai Porter', sub:'Blanco', tipo:'camion', marca:'Hyundai', anio:null, trans:'Automático', carr:'Cajón', cab:null, precio:null,
+      foto:'porter-cajon-seco-automatico.webp', alt:'Hyundai Porter automático con cajón seco, camión blanco', wa:'Hyundai Porter cajón seco automático' },
+    { nombre:'Hyundai Porter', sub:'Blanco', tipo:'camion', marca:'Hyundai', anio:null, trans:null, carr:'Refrigerado', cab:null, precio:null,
+      foto:'porter-refrigerado.webp', alt:'Hyundai Porter blanco con cajón refrigerado', wa:'Hyundai Porter refrigerado' },
+    { nombre:'Hyundai Starex 2014', sub:'Plateada', tipo:'van', marca:'Hyundai', anio:2014, trans:'Automático', carr:'Pasajeros', cab:null, precio:null,
+      foto:'starex-2014-automatica.webp', alt:'Hyundai Starex 2014 automática, van plateada de pasajeros', wa:'Hyundai Starex 2014 automática' },
+    { nombre:'Hyundai Starex 2017', sub:'15 pasajeros · Blanca', tipo:'van', marca:'Hyundai', anio:2017, trans:'Automático', carr:'Pasajeros', cab:null, precio:null,
+      foto:'starex-2017-automatica-15-pasajeros.webp', alt:'Hyundai Starex 2017 automática de 15 pasajeros, van blanca', wa:'Hyundai Starex 2017 automática de 15 pasajeros' },
+    { nombre:'Van Panel de Carga 2018', sub:'Hyundai Starex · Negra', tipo:'van', marca:'Hyundai', anio:2018, trans:'Mecánico', carr:'Panel', cab:null, precio:null,
+      foto:'van-panel-carga-2018-mecanica.webp', alt:'Hyundai Starex negra, van panel de carga 2018 mecánica', wa:'Van Panel de Carga 2018 mecánica' },
+    { nombre:'Van Semi Panel', sub:'Hyundai Starex · Gris', tipo:'van', marca:'Hyundai', anio:null, trans:null, carr:'Panel', cab:null, precio:null,
+      foto:'van-semi-panel.webp', alt:'Hyundai Starex gris, van semi panel', wa:'Van Semi Panel' },
+  ];
+  UNITS.forEach((u, i) => { u.i = i; });
+
+  const FACETS = {
+    marca: { label: 'Marca', values: ['Hyundai', 'Kia'] },
+    trans: { label: 'Transmisión', values: ['Automático', 'Mecánico'] },
+    carr:  { label: 'Carrocería', values: ['Plataforma', 'Cajón', 'Refrigerado', 'Pasajeros', 'Panel'], names: { Panel: 'Panel de carga' } },
+    cab:   { label: 'Cabina', values: ['Doble cabina', 'Cabina y media'] },
+  };
+  const TIPOS = { all: 'Todos', camion: 'Camión', van: 'Van' };
+  const fem = (u, t) => u.tipo === 'van' ? t.replace(/o$/, 'a') : t;
+  const money = n => 'L ' + n.toLocaleString('en-US');
+  const norm = s => String(s ?? '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+  const hasPrices = UNITS.some(u => u.precio != null);
+
+  const state = { tipo: 'all', q: '', budget: null, from: null, to: null, sort: 'rec', marca: new Set(), trans: new Set(), carr: new Set(), cab: new Set() };
+
+  const matches = (u, skip) => {
+    if (skip !== 'tipo' && state.tipo !== 'all' && u.tipo !== state.tipo) return false;
+    for (const k in FACETS) if (skip !== k && state[k].size && !state[k].has(u[k])) return false;
+    if (state.from && !(u.anio && u.anio >= state.from)) return false;
+    if (state.to && !(u.anio && u.anio <= state.to)) return false;
+    if (state.budget && u.precio != null && u.precio > state.budget) return false;
+    if (state.q) {
+      const hay = norm([u.nombre, u.sub, u.marca, u.carr, FACETS.carr.names[u.carr], u.cab, u.trans, u.anio, TIPOS[u.tipo]].join(' '));
+      if (!norm(state.q).split(/\s+/).filter(Boolean).every(w => hay.includes(w))) return false;
+    }
+    return true;
+  };
+
+  /* tarjetas */
+  const grid = $('#grid');
+  const cardHTML = u => {
+    const chips = [u.trans && fem(u, u.trans), u.cab, FACETS.carr.names[u.carr] || u.carr].filter(Boolean)
+      .map(c => `<span class="chip">${c}</span>`).join('') + `<span class="chip cat">${TIPOS[u.tipo]}</span>`;
+    const label = [u.nombre, u.cab, u.trans && fem(u, u.trans).toLowerCase()].filter(Boolean).join(' ');
+    return `<article class="card">
+      <div class="card-img"><img src="assets/units/${u.foto}" alt="${u.alt}" width="1200" height="900" loading="lazy" decoding="async"><span class="credit">Crédito directo</span>${u.anio ? `<span class="year">${u.anio}</span>` : ''}</div>
+      <div class="card-body">
+        <h3>${u.nombre}<span>${u.sub}</span></h3>
+        <div class="chips">${chips}</div>
+        <p class="price">${u.precio != null ? `<b>${money(u.precio)}</b>` : 'Cotiza por WhatsApp'}</p>
+        <a class="btn btn-primary" href="${waLink(`Hola, vi su catálogo y quiero cotizar el ${u.wa}`)}" target="_blank" rel="noopener" aria-label="Cotizar ${label} por WhatsApp"><svg><use href="#i-wa"/></svg>Cotizar esta unidad</a>
+      </div>
+    </article>`;
+  };
+  UNITS.forEach(u => {
+    const w = document.createElement('div');
+    w.className = 'u-wrap';
+    w.innerHTML = cardHTML(u);
+    u.el = w;
+    grid.appendChild(w);
   });
-  $$('.filters button').forEach(btn => btn.addEventListener('click', () => {
-    $$('.filters button').forEach(b => { b.classList.toggle('on', b === btn); b.setAttribute('aria-pressed', b === btn); });
-    const f = btn.dataset.filter;
-    wraps.forEach(w => {
-      const show = f === 'all' || w.dataset.cat === f;
-      w.classList.toggle('is-hidden', !show);
-      if (show) w.classList.add('is-in');
+
+  /* controles */
+  const fQ = $('#fQ'), fBudget = $('#fBudget'), fFrom = $('#fFrom'), fTo = $('#fTo'), fSort = $('#fSort');
+  for (const k in FACETS) {
+    const box = $(`[data-facet="${k}"]`);
+    box.innerHTML = FACETS[k].values.map(v =>
+      `<label class="opt"><input type="checkbox" value="${v}" data-k="${k}"><span>${(FACETS[k].names || {})[v] || v} <small data-n></small></span></label>`).join('');
+  }
+  const years = [...new Set(UNITS.map(u => u.anio).filter(Boolean))].sort((a, b) => a - b);
+  fFrom.innerHTML = '<option value="">Todos</option>' + years.map(y => `<option>${y}</option>`).join('');
+  fTo.innerHTML = '<option value="">Todos</option>' + [...years].reverse().map(y => `<option>${y}</option>`).join('');
+  if (!hasPrices) $$('[data-needs-price]', fSort).forEach(o => o.remove());
+
+  /* URL compartible */
+  const toURL = () => {
+    const p = new URLSearchParams();
+    if (state.tipo !== 'all') p.set('tipo', state.tipo);
+    if (state.q) p.set('q', state.q);
+    if (state.budget) p.set('presupuesto', state.budget);
+    if (state.from) p.set('desde', state.from);
+    if (state.to) p.set('hasta', state.to);
+    for (const k in FACETS) if (state[k].size) p.set(k, [...state[k]].join(','));
+    if (state.sort !== 'rec') p.set('orden', state.sort);
+    const qs = p.toString();
+    history.replaceState(null, '', location.pathname + (qs ? '?' + qs : '') + location.hash);
+  };
+  const fromURL = () => {
+    const p = new URLSearchParams(location.search);
+    if (TIPOS[p.get('tipo')]) state.tipo = p.get('tipo');
+    state.q = p.get('q') || '';
+    state.budget = +p.get('presupuesto') || null;
+    state.from = years.includes(+p.get('desde')) ? +p.get('desde') : null;
+    state.to = years.includes(+p.get('hasta')) ? +p.get('hasta') : null;
+    for (const k in FACETS) (p.get(k) || '').split(',').filter(v => FACETS[k].values.includes(v)).forEach(v => state[k].add(v));
+    if ([...fSort.options].some(o => o.value === p.get('orden'))) state.sort = p.get('orden');
+    return [...p.keys()].length > 0;
+  };
+  const syncControls = () => {
+    fQ.value = state.q;
+    fBudget.value = state.budget ? state.budget.toLocaleString('en-US') : '';
+    fFrom.value = state.from || '';
+    fTo.value = state.to || '';
+    fSort.value = state.sort;
+    $$('.opt input').forEach(i => { i.checked = state[i.dataset.k].has(i.value); });
+    $$('[data-tipo]').forEach(b => { const on = b.dataset.tipo === state.tipo; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); });
+  };
+
+  /* resumen para WhatsApp y etiquetas activas */
+  const activeFilters = () => {
+    const a = [];
+    if (state.tipo !== 'all') a.push({ txt: state.tipo === 'camion' ? 'Camiones' : 'Vans', say: state.tipo === 'camion' ? 'camión' : 'van', off: () => { state.tipo = 'all'; } });
+    for (const k of ['marca', 'trans', 'carr', 'cab']) state[k].forEach(v => {
+      const name = (FACETS[k].names || {})[v] || v;
+      a.push({ txt: name, say: k === 'marca' ? v : name.toLowerCase(), off: () => state[k].delete(v) });
     });
+    if (state.from || state.to) {
+      const t = state.from && state.to ? (state.from === state.to ? `Año ${state.from}` : `Año ${state.from} a ${state.to}`) : state.from ? `Desde ${state.from}` : `Hasta ${state.to}`;
+      a.push({ txt: t, say: t.toLowerCase(), off: () => { state.from = state.to = null; } });
+    }
+    if (state.budget) a.push({ txt: `Hasta ${money(state.budget)}`, say: `presupuesto de ${money(state.budget)}`, off: () => { state.budget = null; } });
+    if (state.q) a.push({ txt: `“${state.q}”`, say: `"${state.q}"`, off: () => { state.q = ''; } });
+    return a;
+  };
+  const searchMsg = act => act.length
+    ? `Hola, vi su catálogo. Busco: ${act.map(f => f.say).join(', ')}. ¿Qué opciones tienen?`
+    : 'Hola, vi su catálogo y quiero que me ayuden a encontrar una unidad.';
+
+  /* render */
+  const rCount = $('#rCount'), pills = $('#pills'), empty = $('#empty'), note = $('#budgetNote');
+  const fBadge = $('#fBadge'), fApplyN = $('#fApplyN'), fClear = $('#fClear');
+  let firstRender = true;
+  const render = () => {
+    const shown = UNITS.filter(u => matches(u));
+    const by = {
+      'anio-desc': (a, b) => (b.anio || 0) - (a.anio || 0) || a.i - b.i,
+      'anio-asc': (a, b) => (a.anio || 9999) - (b.anio || 9999) || a.i - b.i,
+      'precio-asc': (a, b) => (a.precio ?? Infinity) - (b.precio ?? Infinity) || a.i - b.i,
+      'precio-desc': (a, b) => (b.precio ?? -1) - (a.precio ?? -1) || a.i - b.i,
+    }[state.sort] || ((a, b) => a.i - b.i);
+    shown.sort(by);
+
+    const visible = new Set(shown);
+    UNITS.forEach(u => { u.el.hidden = !visible.has(u); u.el.classList.remove('pop'); });
+    shown.forEach((u, k) => {
+      grid.appendChild(u.el);
+      if (!firstRender) { void u.el.offsetWidth; u.el.style.setProperty('--k', Math.min(k, 8)); u.el.classList.add('pop'); }
+    });
+    firstRender = false;
+
+    rCount.innerHTML = `Mostrando <b>${shown.length}</b> de ${UNITS.length} unidades`;
+    empty.hidden = shown.length > 0;
+    fApplyN.textContent = shown.length;
+
+    for (const t in TIPOS) $(`[data-tcount="${t}"]`).textContent = UNITS.filter(u => (t === 'all' || u.tipo === t) && matches(u, 'tipo')).length;
+    $$('.opt input').forEach(i => {
+      const n = UNITS.filter(u => u[i.dataset.k] === i.value && matches(u, i.dataset.k)).length;
+      i.nextElementSibling.querySelector('[data-n]').textContent = n;
+      i.disabled = n === 0 && !i.checked;
+    });
+
+    const act = activeFilters();
+    pills.innerHTML = '';
+    act.forEach(f => {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'pill';
+      b.innerHTML = `${f.txt}<svg aria-hidden="true"><use href="#i-x"/></svg>`;
+      b.setAttribute('aria-label', `Quitar filtro ${f.txt}`);
+      b.addEventListener('click', () => { f.off(); update(); });
+      pills.appendChild(b);
+    });
+    if (act.length) {
+      const sh = document.createElement('button');
+      sh.type = 'button'; sh.className = 'pill ghost';
+      sh.innerHTML = '<svg aria-hidden="true"><use href="#i-share"/></svg>Compartir búsqueda';
+      sh.addEventListener('click', async () => {
+        try {
+          if (navigator.share) await navigator.share({ title: 'Marcas Diesel', text: 'Mira estas unidades', url: location.href });
+          else { await navigator.clipboard.writeText(location.href); sh.lastChild.textContent = '¡Enlace copiado!'; }
+        } catch (e) { /* el usuario canceló */ }
+      });
+      pills.appendChild(sh);
+    }
+    fBadge.hidden = !act.length;
+    fBadge.textContent = act.length;
+    fClear.disabled = !act.length;
+
+    const msg = searchMsg(act);
+    $$('[data-wa-search]').forEach(a => { a.href = waLink(msg); });
+
+    const noPrice = shown.filter(u => u.precio == null).length;
+    note.hidden = !(state.budget && noPrice);
+    if (!note.hidden) {
+      note.querySelector('span').innerHTML = (noPrice === shown.length
+        ? `Todavía no publicamos precios en línea, así que te mostramos todas las opciones. `
+        : `${noPrice} de estas unidades aún no tienen precio publicado. `)
+        + `<a href="${waLink(msg)}" target="_blank" rel="noopener">Escríbenos con tu presupuesto de ${money(state.budget)}</a> y te decimos cuáles te alcanzan.`;
+    }
+  };
+  const update = () => { syncControls(); render(); toURL(); };
+
+  /* eventos */
+  $$('[data-tipo]').forEach(b => b.addEventListener('click', () => { state.tipo = b.dataset.tipo; update(); }));
+  $$('.opt input').forEach(i => i.addEventListener('change', () => {
+    i.checked ? state[i.dataset.k].add(i.value) : state[i.dataset.k].delete(i.value);
+    update();
   }));
+  let qT;
+  fQ.addEventListener('input', () => { clearTimeout(qT); qT = setTimeout(() => { state.q = fQ.value.trim(); render(); toURL(); }, 160); });
+  fBudget.addEventListener('input', () => {
+    const n = parseInt(fBudget.value.replace(/\D/g, ''), 10);
+    state.budget = n > 0 ? n : null;
+    fBudget.value = state.budget ? state.budget.toLocaleString('en-US') : '';
+    render(); toURL();
+  });
+  const onYear = () => {
+    state.from = +fFrom.value || null;
+    state.to = +fTo.value || null;
+    if (state.from && state.to && state.from > state.to) [state.from, state.to] = [state.to, state.from];
+    update();
+  };
+  fFrom.addEventListener('change', onYear);
+  fTo.addEventListener('change', onYear);
+  fSort.addEventListener('change', () => { state.sort = fSort.value; update(); });
+  const clearAll = () => {
+    Object.assign(state, { tipo: 'all', q: '', budget: null, from: null, to: null });
+    for (const k in FACETS) state[k].clear();
+    update();
+  };
+  fClear.addEventListener('click', clearAll);
+  $$('[data-clear]').forEach(b => b.addEventListener('click', clearAll));
+
+  /* panel de filtros en móvil */
+  const fpanel = $('#fpanel'), scrim = $('#scrim'), fOpen = $('#fOpen');
+  const mqSheet = matchMedia('(max-width: 900px)');
+  const setSheet = open => {
+    fpanel.classList.toggle('open', open);
+    scrim.classList.toggle('on', open);
+    fOpen.setAttribute('aria-expanded', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+    if (open) setTimeout(() => $('#fClose').focus({ preventScroll: true }), 50);
+  };
+  fOpen.addEventListener('click', () => setSheet(true));
+  $('#fClose').addEventListener('click', () => setSheet(false));
+  scrim.addEventListener('click', () => setSheet(false));
+  $('#fApply').addEventListener('click', () => {
+    setSheet(false);
+    $('#results').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  });
+  addEventListener('keydown', e => { if (e.key === 'Escape' && fpanel.classList.contains('open')) setSheet(false); });
+  mqSheet.addEventListener('change', () => { if (!mqSheet.matches) setSheet(false); });
+
+  const fromLink = fromURL();
+  update();
+  if (fromLink) addEventListener('load', () => $('#unidades').scrollIntoView());
 
   const yr = $('#year'); if (yr) yr.textContent = new Date().getFullYear();
 })();
